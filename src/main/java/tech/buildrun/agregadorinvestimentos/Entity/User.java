@@ -1,4 +1,4 @@
-package tech.buildrun.agregadorinvestimentos.entity;
+package tech.buildrun.agregadorinvestimentos.Entity;
 
 
 import jakarta.persistence.*;
@@ -25,10 +25,10 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @CreationTimestamp
+    @CreationTimestamp // @CreationTimestamp --> preenche automaticamente com a data/hora em que o registro foi criado
     private Instant creationTimestmp;
 
-    @UpdateTimestamp
+    @UpdateTimestamp // @UpdateTimestamp --> atualiza automaticamente com a data/hora da última modificação
     private Instant updateTimestmp;
 
     public User() {
