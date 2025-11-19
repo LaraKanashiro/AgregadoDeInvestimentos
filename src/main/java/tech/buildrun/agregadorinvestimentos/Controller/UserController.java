@@ -7,11 +7,15 @@ import tech.buildrun.agregadorinvestimentos.Entity.User;
 import tech.buildrun.agregadorinvestimentos.Repository.UserRepository;
 import tech.buildrun.agregadorinvestimentos.Service.UserService;
 
+import java.net.URI;
+import java.util.List;
+
 @RestController
 @RequestMapping("/v1/users")
 public class UserController {
 
     private final UserService userService;
+
     // injetando dependencia
     private UserRepository userRepository;
 
@@ -22,13 +26,30 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser (@RequestBody CreateUserDto createUserDto) {
-        userService.createUser(createUserDto);
-        return null;
+       var userId =  userService.createUser(createUserDto);
+
+       //localizaçao do projeto v1/users
+        return ResponseEntity.created(URI.create("v1/users" + userId.toString())).build();
     }
 
-    @GetMapping
+    @GetMapping("/{userId}")
     public ResponseEntity<User> getUserById( @PathVariable("userId") String userId) {
-        return null;
+        var user = userService.getUserById(userId);
+
+        if (user.isPresent()){
+            return ResponseEntity.ok(user.get());
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
+    // listagem dos ususarios (users)
+    @GetMapping
+    public ResponseEntity<List<User>> listUsers() {
+       var users = userService.listUsers();
+       return ResponseEntity.ok(users);
     }
 
 }

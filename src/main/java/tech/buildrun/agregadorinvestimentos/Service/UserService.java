@@ -6,6 +6,8 @@ import tech.buildrun.agregadorinvestimentos.Entity.User;
 import tech.buildrun.agregadorinvestimentos.Repository.UserRepository;
 
 import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -18,16 +20,31 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void createUser(CreateUserDto createUserDto) {
+    public UUID createUser(CreateUserDto createUserDto) {
 
         // DTO --> ENTITY
        var entity =  new User(
-                UUID.randomUUID(),
+
+                null, // --> UUID.randomUUID()
                 createUserDto.username(),
                 createUserDto.email(),
-                createUserDto.password(), Instant.now(),
-                null);
+                createUserDto.password(),
+                Instant.now(),
+               null);
 
-                userRepository.save(entity);
+          var userSaved = userRepository.save(entity);
+
+          // dessa forma ele vai retonar somente o identicador
+          return userSaved.getId();
+    }
+
+    public Optional <User> getUserById(String userId) {
+
+       return userRepository.findById(UUID.fromString(userId));
+    }
+
+    // trazer todos os ususrios do banco de dados para dentro dessa lista
+    public List<User> listUsers() {
+        return userRepository.findAll();
     }
 }
