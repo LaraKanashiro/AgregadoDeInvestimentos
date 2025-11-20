@@ -19,11 +19,14 @@ public class UserService {
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+        // this.userRepository = userRepository; --> armazena no atributo
     }
 
+    // cria usuario -->
     public UUID createUser(CreateUserDto createUserDto) {
 
         // DTO --> ENTITY
+        // cria uma User a partir no DTO
        var entity =  new User(
 
                 null, // --> UUID.randomUUID()
@@ -39,6 +42,7 @@ public class UserService {
           return userSaved.getId();
     }
 
+    // buscar por Id -->
     public Optional <User> getUserById(String userId) {
 
        return userRepository.findById(UUID.fromString(userId));
@@ -48,8 +52,6 @@ public class UserService {
     public List<User> listUsers() {
         return userRepository.findAll();
     }
-
-
     public void UpdateUserById(String userId, UpdateUserDto updateUserDto) {
         var id = UUID.fromString(userId);
 
@@ -72,7 +74,7 @@ public class UserService {
 
     }
 
-
+    // deletar usuario
     public void deleteUserById(String userId) {
         var id = UUID.fromString(userId);
 

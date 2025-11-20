@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.Instant;
+import java.time.Instant; // Instant -->  tipo de data e hora (com fuso) adequado para auditoria
 import java.util.UUID;
 
 @Entity
@@ -28,7 +28,7 @@ public class User {
     @CreationTimestamp // @CreationTimestamp --> preenche automaticamente com a data/hora em que o registro foi criado
     private Instant creationTimestmp;
 
-    @UpdateTimestamp // @UpdateTimestamp --> atualiza automaticamente com a data/hora da última modificação
+    @UpdateTimestamp // @UpdateTimestamp --> atualiza automaticamente com a data/hora da ultima modificação
     private Instant updateTimestmp;
 
     public User() {
