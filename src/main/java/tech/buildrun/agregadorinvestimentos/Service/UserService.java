@@ -2,6 +2,7 @@ package tech.buildrun.agregadorinvestimentos.Service;
 
 import org.springframework.stereotype.Service;
 import tech.buildrun.agregadorinvestimentos.Controller.CreateUserDto;
+import tech.buildrun.agregadorinvestimentos.Controller.UpdateUserDto;
 import tech.buildrun.agregadorinvestimentos.Entity.User;
 import tech.buildrun.agregadorinvestimentos.Repository.UserRepository;
 
@@ -46,5 +47,39 @@ public class UserService {
     // trazer todos os ususrios do banco de dados para dentro dessa lista
     public List<User> listUsers() {
         return userRepository.findAll();
+    }
+
+
+    public void UpdateUserById(String userId, UpdateUserDto updateUserDto) {
+        var id = UUID.fromString(userId);
+
+        var userEntity = userRepository.findById(id);
+
+        if (userEntity.isPresent()) {
+            var user = userEntity.get();
+
+            if (updateUserDto.username() != null) {
+                user.setUsername(updateUserDto.username());
+            }
+
+            if (updateUserDto.password() != null) {
+                user.setPassword(updateUserDto.password());
+            }
+
+            userRepository.save(user);
+
+        }
+
+    }
+
+
+    public void deleteUserById(String userId) {
+        var id = UUID.fromString(userId);
+
+        var userExists = userRepository.existsById(id);
+
+        if (userExists) {
+            userRepository.deleteById(id);
+        }
     }
 }
